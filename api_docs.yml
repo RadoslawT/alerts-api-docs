@@ -7,4 +7,31 @@ info:
   version: 1.0.0
 servers:
 - url: http://localhost:8000/v1
-paths: {}
+tags:
+- name: user
+  description: Operations about user
+paths:
+  /users:
+    post:
+      tags:
+      - user
+      summary: Signs up user
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+                - email
+                - password
+      responses:
+        '202':
+          description: Accepted - even when users already exists.
+        '422':
+          description: Unprocessable Entity

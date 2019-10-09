@@ -66,8 +66,28 @@ paths:
                           type: string
                         source:
                           type: string
-              example:
-                errors: [
-                  { code: "emailInvalid", source: "/data/attributes/email" },
-                  { code: "passwordTooShort", source: "/data/attributes/password" },
-                ]
+              examples:
+                emailMissing:
+                  value: [
+                    { code: "missing", source: "/data/attributes/email" }
+                  ]
+                emailBlank:
+                  value: [
+                    { code: "blank", source: "/data/attributes/email" }
+                  ]
+                emailFormatInvalid:
+                  value: [
+                    { code: "formatInvalid", source: "/data/attributes/email" }
+                  ]
+                passwordMissing:
+                  value: [
+                    { code: "missing", source: "/data/attributes/password" },
+                  ]
+                passwordBlank:
+                  value: [
+                    { code: "blank", source: "/data/attributes/password" },
+                  ]
+                passwordTooShort:
+                  value: [
+                    { code: "tooShort", source: "/data/attributes/password" },
+                  ]

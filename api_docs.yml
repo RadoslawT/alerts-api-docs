@@ -7,4 +7,87 @@ info:
   version: 1.0.0
 servers:
 - url: http://localhost:8000/v1
-paths: {}
+tags:
+- name: user
+  description: Operations about user
+paths:
+  /signup:
+    post:
+      tags:
+      - user
+      summary: Signs up user
+      requestBody:
+        required: true
+        content:
+          application/vnd.api+json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      example: "users"
+                    attributes:
+                      type: object
+                      properties:
+                        email:
+                          type: string
+                          example: "valid@email.com"
+                        password:
+                          type: string
+                          example: "password123"
+      responses:
+        '202':
+          description: Accepted - even when users already exists.
+          content:
+            application/vnd.api+json:
+              schema:
+               type: object
+               properties:
+                 data:
+                   type: integer
+                   nullable: true
+                   example: null
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                        source:
+                          type: string
+              examples:
+                emailMissing:
+                  value: [
+                    { code: "missing", source: "/data/attributes/email" }
+                  ]
+                emailBlank:
+                  value: [
+                    { code: "blank", source: "/data/attributes/email" }
+                  ]
+                emailFormatInvalid:
+                  value: [
+                    { code: "formatInvalid", source: "/data/attributes/email" }
+                  ]
+                passwordMissing:
+                  value: [
+                    { code: "missing", source: "/data/attributes/password" },
+                  ]
+                passwordBlank:
+                  value: [
+                    { code: "blank", source: "/data/attributes/password" },
+                  ]
+                passwordTooShort:
+                  value: [
+                    { code: "tooShort", source: "/data/attributes/password" },
+                  ]

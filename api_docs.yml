@@ -91,3 +91,73 @@ paths:
                   value: [
                     { code: "tooShort", source: "/data/attributes/password" },
                   ]
+  /token:
+    post:
+      tags:
+      - oauth
+      summary: Gets access token in Oauth 2.0 standard
+      requestBody:
+        required: true
+        content:
+          application/vnd.api+json:
+            schema:
+              type: object
+              properties:
+                grant_type:
+                  type: string
+                  example: "password"
+                username:
+                  type: string
+                  example: "email@email.com"
+                password:
+                  type: string
+                  example: "password"
+                refresh_token:
+                  type: string
+                  example: "refresh_token"
+            examples:
+              password:
+                summary: Password authentication
+                value: { grant_type: "password", username: "username123", password: "password123" }
+              refresh_token:
+                summary: Refresh token authentication
+                value: { grant_type: "refresh_token", refresh_token: "8a7d6adagdadhah7s6d76ad76" }
+      responses:
+        200:
+          description: OK - access granted.
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    type: string
+                    example: "MTQ0NjOkZmQ5OTM5NDE9ZTZjNGZmZjI3"
+                  token_type:
+                    type: string
+                    example: "bearer"
+                  expires_in:
+                    type: integer
+                    example: 86_400
+                  refresh_token:
+                    type: string
+                    example: "8a7d6adagdadhah7s6d76ad76"
+        400:
+          description: Bad Request
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: "string"
+              examples:
+                invalid_grant:
+                  description: The authorization code is invalid or expired.
+                  value: { error: "invalid_grant" }
+                invalid_request:
+                  description: The request is missing a parameter so the server can’t proceed with the request.
+                  value: { error: "invalid_request" }
+                unsupported_grant_type:
+                  description:  Requested grant type is not recognized by the authorization server.
+                  value: { error: "unsupported_grant_type" }

@@ -251,3 +251,22 @@ paths:
                   value: [
                     { code: "less_or_equal_zero", source: "/data/attributes/trigger_price" }
                   ]
+  /me/alerts/:uuid/turn_off:
+    post:
+      tags:
+      - alerts
+      summary: Turns of the alert.
+      responses:
+        '202':
+          description: Accepted.
+          content:
+            application/vnd.api+json:
+              schema:
+               type: object
+               properties:
+                 data:
+                   type: integer
+                   nullable: true
+                   example: null
+        '401':
+          description: Unauthorized.

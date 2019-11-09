@@ -251,11 +251,18 @@ paths:
                   value: [
                     { code: "less_or_equal_zero", source: "/data/attributes/trigger_price" }
                   ]
-  /me/alerts/:uuid/turn_off:
+  /me/alerts/{alert_uuid}/turn_off:
     post:
       tags:
       - alerts
       summary: Turns of the alert.
+      parameters:
+        - in: path
+          name: alert_uuid
+          schema:
+            type: string
+          required: true
+          description: UUID of the alert.
       responses:
         '202':
           description: Accepted.

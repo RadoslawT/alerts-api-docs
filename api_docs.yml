@@ -277,3 +277,29 @@ paths:
                    example: null
         '401':
           description: Unauthorized.
+  /me/alerts/{alert_uuid}:
+    delete:
+      tags:
+      - alerts
+      summary: Delets the alert.
+      parameters:
+        - in: path
+          name: alert_uuid
+          schema:
+            type: string
+          required: true
+          description: UUID of the alert.
+      responses:
+        '202':
+          description: Accepted.
+          content:
+            application/vnd.api+json:
+              schema:
+               type: object
+               properties:
+                 data:
+                   type: integer
+                   nullable: true
+                   example: null
+        '401':
+          description: Unauthorized.

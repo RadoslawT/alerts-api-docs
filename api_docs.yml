@@ -167,6 +167,64 @@ paths:
                   value: { error: "unsupported_grant_type" }
 
   /me/alerts:
+    get:
+      tags:
+      - alerts
+      summary: Lists user's alerts.
+      responses:
+        '200':
+          description: Accepted.
+          content:
+            application/vnd.api+json:
+              schema:
+               type: object
+               properties:
+                 data:
+                   type: array
+                   items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      type:
+                        type: string
+                      attributes:
+                        type: object
+                        properties:
+                          uuid:             
+                            type: string
+                            format: uuid
+                            example: "1e9e35fb-224d-4075-9f64-fe037c7167a6"
+                          market_uuid:      
+                            type: string
+                            format: uuid
+                            example: "1e9e35fb-224d-4075-9f64-fe037c7167a6"
+                          user_uuid:        
+                            type: string
+                            format: uuid
+                            example: "1e9e35fb-224d-4075-9f64-fe037c7167a6"
+                          activation_price: 
+                            type: number
+                            example: 1.23
+                          trigger_price:    
+                            type: number
+                            example: 4.56
+                          triggered_at:
+                            type: string
+                            format: date-time
+                            example: "2017-07-21T17:32:28Z"
+                          turned_off_at:
+                            type: string
+                            format: date-time
+                            example: "2017-07-21T17:32:28Z"
+                          triggered?:
+                            type: boolean
+                            example: true
+                          turned_off?:
+                            type: boolean
+                            example: true
+        '401':
+          description: Unauthorized.
     post:
       tags:
       - alerts
@@ -255,7 +313,7 @@ paths:
     post:
       tags:
       - alerts
-      summary: Turns of the alert.
+      summary: Turns off the alert.
       parameters:
         - in: path
           name: alert_uuid
@@ -302,4 +360,4 @@ paths:
                    nullable: true
                    example: null
         '401':
-          description: Unauthorized.
+          description: Unauthorized.\

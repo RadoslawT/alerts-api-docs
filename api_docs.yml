@@ -384,15 +384,14 @@ paths:
                     properties:
                       id:
                         type: string
+                        format: uuid
+                        example: "1e9e35fb-224d-4075-9f64-fe037c7167a6"
                       type:
                         type: string
+                        example: "markets"
                       attributes:
                         type: object
                         properties:
-                          uuid:
-                            type: string
-                            format: uuid
-                            example: "1e9e35fb-224d-4075-9f64-fe037c7167a6"
                           platform:
                             type: string
                             example: "bittrex"

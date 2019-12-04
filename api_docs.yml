@@ -14,6 +14,8 @@ tags:
   description: Ouath2 endpoints
 - name: alerts
   description: Alerts endpoints
+- name: markets
+  description: Markets endpoints
 paths:
   /signup:
     post:
@@ -173,7 +175,7 @@ paths:
       summary: Lists user's alerts.
       responses:
         '200':
-          description: Accepted.
+          description: OK - resources returned.
           content:
             application/vnd.api+json:
               schema:
@@ -361,3 +363,38 @@ paths:
                    example: null
         '401':
           description: Unauthorized.\
+
+  /markets:
+    get:
+      tags:
+      - markets
+      summary: Lists all markets.
+      responses:
+        '200':
+          description: OK - resources returned.
+          content:
+            application/vnd.api+json:
+              schema:
+               type: object
+               properties:
+                 data:
+                   type: array
+                   items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        format: uuid
+                        example: "1e9e35fb-224d-4075-9f64-fe037c7167a6"
+                      type:
+                        type: string
+                        example: "markets"
+                      attributes:
+                        type: object
+                        properties:
+                          platform:
+                            type: string
+                            example: "bittrex"
+                          name:
+                            type: string
+                            example: "LTC-BTC"

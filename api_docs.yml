@@ -4,23 +4,23 @@ info:
   description: Alerts API.
   contact:
     email: radoslawtomczynski@gmail.com
-  version: 0.1b
+  version: "0.1b"
 servers:
-- url: http://localhost:8000/v1
+  - url: 'http://localhost:8000/v1'
 tags:
-- name: user
-  description: User endpoints
-- name: oauth
-  description: Ouath2 endpoints
-- name: alerts
-  description: Alerts endpoints
-- name: markets
-  description: Markets endpoints
+  - name: user
+    description: User endpoints
+  - name: oauth
+    description: Ouath2 endpoints
+  - name: alerts
+    description: Alerts endpoints
+  - name: markets
+    description: Markets endpoints
 paths:
   /signup:
     post:
       tags:
-      - user
+        - user
       summary: Signs up User
       requestBody:
         required: true
@@ -34,28 +34,28 @@ paths:
                   properties:
                     type:
                       type: string
-                      example: "users"
+                      example: users
                     attributes:
                       type: object
                       properties:
                         email:
                           type: string
-                          example: "valid@email.com"
+                          example: valid@email.com
                         password:
                           type: string
-                          example: "password123"
+                          example: password123
       responses:
         '202':
           description: Accepted - even when users already exists.
           content:
             application/vnd.api+json:
               schema:
-               type: object
-               properties:
-                 data:
-                   type: integer
-                   nullable: true
-                   example: null
+                type: object
+                properties:
+                  data:
+                    type: integer
+                    nullable: true
+                    example: null
         '422':
           description: Unprocessable Entity
           content:
@@ -74,33 +74,33 @@ paths:
                           type: string
               examples:
                 emailMissing:
-                  value: [
-                    { code: "missing", source: "/data/attributes/email" }
-                  ]
+                  value:
+                    - code: missing
+                      source: /data/attributes/email
                 emailBlank:
-                  value: [
-                    { code: "blank", source: "/data/attributes/email" }
-                  ]
+                  value:
+                    - code: blank
+                      source: /data/attributes/email
                 emailFormatInvalid:
-                  value: [
-                    { code: "formatInvalid", source: "/data/attributes/email" }
-                  ]
+                  value:
+                    - code: formatInvalid
+                      source: /data/attributes/email
                 passwordMissing:
-                  value: [
-                    { code: "missing", source: "/data/attributes/password" },
-                  ]
+                  value:
+                    - code: missing
+                      source: /data/attributes/password
                 passwordBlank:
-                  value: [
-                    { code: "blank", source: "/data/attributes/password" },
-                  ]
+                  value:
+                    - code: blank
+                      source: /data/attributes/password
                 passwordTooShort:
-                  value: [
-                    { code: "tooShort", source: "/data/attributes/password" },
-                  ]
+                  value:
+                    - code: tooShort
+                      source: /data/attributes/password
   /token:
     post:
       tags:
-      - oauth
+        - oauth
       summary: Gets access token in Oauth 2.0 standard
       requestBody:
         required: true
@@ -111,25 +111,30 @@ paths:
               properties:
                 grant_type:
                   type: string
-                  example: "password"
+                  example: password
                 username:
                   type: string
-                  example: "email@email.com"
+                  example: email@email.com
                 password:
                   type: string
-                  example: "password"
+                  example: password
                 refresh_token:
                   type: string
-                  example: "refresh_token"
+                  example: refresh_token
             examples:
               password:
                 summary: Password authentication
-                value: { grant_type: "password", username: "username123", password: "password123" }
+                value:
+                  grant_type: password
+                  username: username123
+                  password: password123
               refresh_token:
                 summary: Refresh token authentication
-                value: { grant_type: "refresh_token", refresh_token: "8a7d6adagdadhah7s6d76ad76" }
+                value:
+                  grant_type: refresh_token
+                  refresh_token: 8a7d6adagdadhah7s6d76ad76
       responses:
-        200:
+        '200':
           description: OK - access granted.
           content:
             application/vnd.api+json:
@@ -138,17 +143,17 @@ paths:
                 properties:
                   access_token:
                     type: string
-                    example: "MTQ0NjOkZmQ5OTM5NDE9ZTZjNGZmZjI3"
+                    example: MTQ0NjOkZmQ5OTM5NDE9ZTZjNGZmZjI3
                   token_type:
                     type: string
-                    example: "bearer"
+                    example: bearer
                   expires_in:
                     type: integer
-                    example: 86_400
+                    example: 86400
                   refresh_token:
                     type: string
-                    example: "8a7d6adagdadhah7s6d76ad76"
-        400:
+                    example: 8a7d6adagdadhah7s6d76ad76
+        '400':
           description: Bad Request
           content:
             application/vnd.api+json:
@@ -156,22 +161,28 @@ paths:
                 type: object
                 properties:
                   error:
-                    type: "string"
+                    type: string
               examples:
                 invalid_grant:
                   description: The authorization code is invalid or expired.
-                  value: { error: "invalid_grant" }
+                  value:
+                    error: invalid_grant
                 invalid_request:
-                  description: The request is missing a parameter so the server can’t proceed with the request.
-                  value: { error: "invalid_request" }
+                  description: >-
+                    The request is missing a parameter so the server can’t
+                    proceed with the request.
+                  value:
+                    error: invalid_request
                 unsupported_grant_type:
-                  description:  Requested grant type is not recognized by the authorization server.
-                  value: { error: "unsupported_grant_type" }
-
+                  description: >-
+                    Requested grant type is not recognized by the authorization
+                    server.
+                  value:
+                    error: unsupported_grant_type
   /me/alerts:
     get:
       tags:
-      - alerts
+        - alerts
       summary: Lists user's alerts.
       responses:
         '200':
@@ -179,57 +190,57 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-               type: object
-               properties:
-                 data:
-                   type: array
-                   items:
-                    type: object
-                    properties:
-                      id:
-                        type: string
-                      type:
-                        type: string
-                      attributes:
-                        type: object
-                        properties:
-                          uuid:             
-                            type: string
-                            format: uuid
-                            example: "1e9e35fb-224d-4075-9f64-fe037c7167a6"
-                          market_uuid:      
-                            type: string
-                            format: uuid
-                            example: "1e9e35fb-224d-4075-9f64-fe037c7167a6"
-                          user_uuid:        
-                            type: string
-                            format: uuid
-                            example: "1e9e35fb-224d-4075-9f64-fe037c7167a6"
-                          activation_price: 
-                            type: number
-                            example: 1.23
-                          trigger_price:    
-                            type: number
-                            example: 4.56
-                          triggered_at:
-                            type: string
-                            format: date-time
-                            example: "2017-07-21T17:32:28Z"
-                          turned_off_at:
-                            type: string
-                            format: date-time
-                            example: "2017-07-21T17:32:28Z"
-                          triggered?:
-                            type: boolean
-                            example: true
-                          turned_off?:
-                            type: boolean
-                            example: true
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        type:
+                          type: string
+                        attributes:
+                          type: object
+                          properties:
+                            uuid:
+                              type: string
+                              format: uuid
+                              example: 1e9e35fb-224d-4075-9f64-fe037c7167a6
+                            market_uuid:
+                              type: string
+                              format: uuid
+                              example: 1e9e35fb-224d-4075-9f64-fe037c7167a6
+                            user_uuid:
+                              type: string
+                              format: uuid
+                              example: 1e9e35fb-224d-4075-9f64-fe037c7167a6
+                            activation_price:
+                              type: number
+                              example: 1.23
+                            trigger_price:
+                              type: number
+                              example: 4.56
+                            triggered_at:
+                              type: string
+                              format: date-time
+                              example: '2017-07-21T17:32:28Z'
+                            turned_off_at:
+                              type: string
+                              format: date-time
+                              example: '2017-07-21T17:32:28Z'
+                            triggered?:
+                              type: boolean
+                              example: true
+                            turned_off?:
+                              type: boolean
+                              example: true
         '401':
           description: Unauthorized.
     post:
       tags:
-      - alerts
+        - alerts
       summary: Creates a new Alert
       requestBody:
         required: true
@@ -243,13 +254,13 @@ paths:
                   properties:
                     type:
                       type: string
-                      example: "alerts"
+                      example: alerts
                     attributes:
                       type: object
                       properties:
                         market_uuid:
                           type: string
-                          example: "1e9e35fb-224d-4075-9f64-fe037c7167a6"
+                          example: 1e9e35fb-224d-4075-9f64-fe037c7167a6
                         activation_price:
                           type: number
                           example: 1.23
@@ -262,12 +273,12 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-               type: object
-               properties:
-                 data:
-                   type: integer
-                   nullable: true
-                   example: null
+                type: object
+                properties:
+                  data:
+                    type: integer
+                    nullable: true
+                    example: null
         '401':
           description: Unauthorized.
         '422':
@@ -288,33 +299,33 @@ paths:
                           type: string
               examples:
                 marketUuidMissing:
-                  value: [
-                    { code: "missing", source: "/data/attributes/market_uuid" }
-                  ]
+                  value:
+                    - code: missing
+                      source: /data/attributes/market_uuid
                 marketUuidBlank:
-                  value: [
-                    { code: "blank", source: "/data/attributes/market_uuid" }
-                  ]
+                  value:
+                    - code: blank
+                      source: /data/attributes/market_uuid
                 activationPriceMissing:
-                  value: [
-                    { code: "missing", source: "/data/attributes/activation_price" }
-                  ]
+                  value:
+                    - code: missing
+                      source: /data/attributes/activation_price
                 activationPriceLessOrEqualZero:
-                  value: [
-                    { code: "less_or_equal_zero", source: "/data/attributes/activation_price" }
-                  ]
+                  value:
+                    - code: less_or_equal_zero
+                      source: /data/attributes/activation_price
                 triggerPriceMissing:
-                  value: [
-                    { code: "missing", source: "/data/attributes/trigger_price" }
-                  ]
+                  value:
+                    - code: missing
+                      source: /data/attributes/trigger_price
                 triggerPriceLessOrEqualZero:
-                  value: [
-                    { code: "less_or_equal_zero", source: "/data/attributes/trigger_price" }
-                  ]
-  /me/alerts/{alert_uuid}/turn_off:
+                  value:
+                    - code: less_or_equal_zero
+                      source: /data/attributes/trigger_price
+  '/me/alerts/{alert_uuid}/turn_off':
     post:
       tags:
-      - alerts
+        - alerts
       summary: Turns off the alert.
       parameters:
         - in: path
@@ -329,18 +340,18 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-               type: object
-               properties:
-                 data:
-                   type: integer
-                   nullable: true
-                   example: null
+                type: object
+                properties:
+                  data:
+                    type: integer
+                    nullable: true
+                    example: null
         '401':
           description: Unauthorized.
-  /me/alerts/{alert_uuid}:
+  '/me/alerts/{alert_uuid}':
     delete:
       tags:
-      - alerts
+        - alerts
       summary: Delets the alert.
       parameters:
         - in: path
@@ -355,19 +366,18 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-               type: object
-               properties:
-                 data:
-                   type: integer
-                   nullable: true
-                   example: null
+                type: object
+                properties:
+                  data:
+                    type: integer
+                    nullable: true
+                    example: null
         '401':
           description: Unauthorized.\
-
   /markets:
     get:
       tags:
-      - markets
+        - markets
       summary: Lists all markets.
       responses:
         '200':
@@ -375,26 +385,26 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-               type: object
-               properties:
-                 data:
-                   type: array
-                   items:
-                    type: object
-                    properties:
-                      id:
-                        type: string
-                        format: uuid
-                        example: "1e9e35fb-224d-4075-9f64-fe037c7167a6"
-                      type:
-                        type: string
-                        example: "markets"
-                      attributes:
-                        type: object
-                        properties:
-                          platform:
-                            type: string
-                            example: "bittrex"
-                          name:
-                            type: string
-                            example: "LTC-BTC"
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          format: uuid
+                          example: 1e9e35fb-224d-4075-9f64-fe037c7167a6
+                        type:
+                          type: string
+                          example: markets
+                        attributes:
+                          type: object
+                          properties:
+                            platform:
+                              type: string
+                              example: bittrex
+                            name:
+                              type: string
+                              example: LTC-BTC
